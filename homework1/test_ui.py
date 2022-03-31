@@ -1,93 +1,39 @@
 import pytest
-import conftest
 from base import Basecase
 import locators
-import selenium
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
-email = "katerina_petrovich@bk.ru"
-password = "135qwe"
-fio = "adc"
+from helper import login
 
 
 class TestUI(Basecase):
 
-    def login(self):
-        wait = WebDriverWait(self.driver, timeout=10)
-        self.driver.get("https://target.my.com/")
-
-        enter_button = wait.until(
-            EC.element_to_be_clickable(locators.ENTER_BUTTON_LOCATOR))
-        enter_button.click()
-        email_field = self.find(locators.EMAIL_FIELD_LOCATOR)
-        email_field.send_keys(email)
-        password_field = self.find(
-            locators.PASSWORD_FIELD_LOCATOR)
-        password_field.send_keys(password)
-        enter_login_button = self.find(locators.enter_login_button_locator)
-        enter_login_button.click()
-
     @pytest.mark.UI
     def test_login(self):
-        wait = WebDriverWait(self.driver, timeout=10)
-        self.login()
-        assert wait.until(
-            EC.presence_of_element_located(locators.instruction_locator))
+        login(self)
+        assert "dashboard" in self.driver.current_url
 
     @pytest.mark.UI
     def test_logout(self):
-        wait = WebDriverWait(self.driver, timeout=10)
-        self.login()
-        username_button = wait.until(
-            EC.visibility_of_element_located(
-                locators.username_button_locator))
-        username_button = wait.until(
-            EC.element_to_be_clickable(
-                locators.username_button_locator))
-
-        username_button.click()
-
-        try:
-            wait.until(
-                  EC.visibility_of_element_located(locators.logout_button_locator))
-        except selenium.common.exceptions.TimeoutException:
-            username_button.click()
-            wait.until(EC.visibility_of_element_located(
-                    locators.logout_button_locator))
-        self.click(locators.logout_button_locator)
-
-
-
+        login(self)
+        self.find(locators.NOTIFICATION) or self.find(locators.LOGO)
+        self.click(locators.USERNAME_BUTTON_LOCATOR)
+        logout_button = self.find(locators.LOGOUT_BUTTON_LOCATOR)
+        self.driver.execute_script("arguments[0].click();", logout_button)
+        assert "https://target.my.com/" == self.driver.current_url
 
     @pytest.mark.UI
     def test_edit_contact_info(self):
-        wait = WebDriverWait(self.driver, timeout=10)
-        self.login()
+        login(self)
         self.driver.get("https://target.my.com/profile/contacts")
-        fio_field = wait.until(
-            EC.presence_of_element_located(locators.FIO_LOCATOR))
-        fio_field = wait.until(
-            EC.visibility_of_element_located(locators.FIO_LOCATOR))
-
-        fio_field.send_keys(fio)
-        self.find(locators.SAVE_BUTTON_LOCATOR).click()
-
-        assert wait.until(
-            EC.presence_of_element_located(locators.SUCCESS_SAVE))
-        fio_field.clear()
+        self.send_keys(locators.FIO_LOCATOR, "fio")
+        self.click(locators.SAVE_BUTTON_LOCATOR)
+        assert self.find(locators.SUCCESS_SAVE)
 
     @pytest.mark.UI
-    @pytest.mark.parametrize("button_locator, page_locator",
-                             [(locators.BALANCE_BUTTON_LOCATOR, locators.DEPOSIT_FORM_LOCATOR),
-                              (locators.STAT_BUTTON_LOCATOR, locators.STAT_PAGE_LOCATOR)])
-    def test_parametrized(self, button_locator, page_locator):
-        wait = WebDriverWait(self.driver, timeout=10)
-        self.login()
-        button = wait.until(
-                 EC.visibility_of_element_located(button_locator))
-        button = wait.until(
-                 EC.element_to_be_clickable(button_locator))
-        button.click()
-        assert wait.until(
-                 EC.visibility_of_element_located(page_locator))
+    @pytest.mark.parametrize("button_locator, key_word",
+                             [(locators.BALANCE_BUTTON_LOCATOR, "billing"),
+                              (locators.STAT_BUTTON_LOCATOR, "statistics")])
+    def test_parametrized(self, button_locator, key_word):
+        login(self)
+        self.find(locators.NOTIFICATION) or self.find(locators.LOGO)
+        self.click(button_locator)
+        assert key_word in self.driver.current_url
