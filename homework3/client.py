@@ -1,5 +1,7 @@
 from urllib.parse import urljoin
 import json
+import os
+
 
 import requests
 
@@ -60,11 +62,11 @@ class ApiClient:
         response = self.session.get(url=url)
         return response
 
-    def post_create_campaign(self, name):
+    def post_create_campaign(self, name, repo_root):
         url = urljoin(self.base_url, "/api/v2/campaigns.json")
         headers = {"X-CSRFToken": self.csrf_token}
-
-        with open("data.json", "r") as read_file:
+        file_path = os.path.join(repo_root, "data.json")
+        with open(file_path, "r") as read_file:
             data = json.load(read_file)
             data['name'] = name
         response = self.session.post(url=url, headers=headers, json=data)

@@ -18,8 +18,8 @@ class TestApi(ApiBase):
         assert self.api_client.get_check_segment(id).status_code == 404
 
     @pytest.mark.API
-    def test_campaign_creation(self, random_str):
+    def test_campaign_creation(self, random_str, repo_root):
         name = random_str
-        id = self.api_client.post_create_campaign(name)
+        id = self.api_client.post_create_campaign(name, repo_root)
         assert self.api_client.get_check_campaign(id).status_code == 200
         self.api_client.delete_campaign(id)
