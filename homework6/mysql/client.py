@@ -11,7 +11,7 @@ class MysqlClient:
         self.port = 3306
         self.password = 'pass'
         self.host = '127.0.0.1'
-        self.db_name = "TEST_SQL"
+        self.db_name = 'TEST_SQL'
 
         self.connection = None
         self.engine = None

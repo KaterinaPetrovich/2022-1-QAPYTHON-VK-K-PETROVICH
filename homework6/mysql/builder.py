@@ -13,8 +13,8 @@ class MysqlBuilder:
         self.client.session.commit()
         return total_requests
 
-    def create_types(self, count, type):
-        types = TypesModel(type=type, count=count)
+    def create_types(self, count, type_name):
+        types = TypesModel(type_name=type_name, count=count)
         self.client.session.add(types)
         self.client.session.commit()
         return types
