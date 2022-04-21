@@ -6,3 +6,6 @@ webdriver-manager==3.5.4
 pytest-xdist==2.5.0
 allure-pytest-bdd==2.9.45
 requests==2.22.0
+sqlalchemy==1.4.35
+pytest==7.1.1
+pymysql==1.0.2
