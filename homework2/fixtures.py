@@ -16,7 +16,7 @@ def base_page(driver):
 
 
 @pytest.fixture()
-def file_path(repo_root):
+def path_to_campaign_data_file(repo_root):
     return os.path.join(repo_root, 'files', 'file.json')
 
 

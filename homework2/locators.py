@@ -7,6 +7,8 @@ class LoginPageLocators:
     PASSWORD_FIELD_LOCATOR = (By.XPATH, '//input[@name="password"]')
     ENTER_LOGIN_BUTTON_LOCATOR = (By.XPATH, '//div[contains(@class, "authForm-module-button")]')
     WRONG_LOGIN_NOTIFY = (By.XPATH, '//div[contains(@class, "notify-module-error")]')
+    REGISTRATION_BUTTON = (By.XPATH, '// a[contains( @class ,"login_signup")]')
+
 
 
 class MainPageLocators:
@@ -35,15 +37,10 @@ class SegmentPageLocators:
     ADD_SEGMENTS_ITEM = (By.XPATH, '//div[@class = "adding-segments-item"]')
     SEGMENTS_NAME_INPUT = (By.XPATH, '//div[@class= "js-segment-name"]//input')
     FINAL_SUBMIT_BUTTON = (By.XPATH, '//button[@data-class-name="Submit"]')
-    DELETE_BUTTON = (By.XPATH, '//button[contains(@class,"remove")]')
+    DELETE_BUTTON = (By.XPATH, '//li[@data-test="remove"]')
     SEARCH_INPUT = (By.XPATH, '//input[contains(@class,"search")]')
     NOTHING_NOTIFICATION = (By.XPATH, '//li[@data-test="nothing"]')
-
-    def get_created_segment_locator(self, segments_name):
-        return (By.XPATH, f'//a[@title = "{segments_name}"]')
-
-    def get_delete_icon_locator(self, segments_name):
-        return (By.XPATH, f'//a[@title="{segments_name}"]/following::div[contains(@data-test, "remove")]')
+    SELECT_MODULE = (By.XPATH,'//div[contains(@class,"select-module-arrow")]')
 
 
 
