@@ -4,6 +4,7 @@ from pages.source_page import SourcePage
 from locators import SettingsPageLocators
 
 
+
 class SettingsPage(BasePage):
     locators = SettingsPageLocators()
 
@@ -14,3 +15,4 @@ class SettingsPage(BasePage):
     def open_source_page(self):
         self.click(self.locators.SOURCE_OF_NEWS)
         return SourcePage(self.driver)
+
