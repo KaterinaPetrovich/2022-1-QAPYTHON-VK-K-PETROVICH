@@ -7,4 +7,4 @@ class AboutPage(BasePage):
     locators = AboutPageLocators()
 
     def check_version(self, version):
-        self.find((By.XPATH, f"//android.widget.TextView[contains(@text, 'Версия {version}')]"))
+        return bool(self.find((By.XPATH, f"//android.widget.TextView[contains(@text, 'Версия {version}')]")))
