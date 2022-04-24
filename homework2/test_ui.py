@@ -9,7 +9,6 @@ password = "135qwe"
 class TestUI(BaseCase):
 
     @pytest.mark.UI
-    @pytest.mark.skip("skip")
     def test_wrong_password_login(self):
         self.driver.get("https://target.my.com/")
         self.login_page.click(self.login_page.locators.ENTER_BUTTON_LOCATOR)
@@ -20,7 +19,6 @@ class TestUI(BaseCase):
         assert self.login_page.find(self.login_page.locators.REGISTRATION_BUTTON)
 
     @pytest.mark.UI
-    @pytest.mark.skip("skip")
     def test_invalid_login(self):
 
         self.driver.get("https://target.my.com/")
@@ -33,7 +31,6 @@ class TestUI(BaseCase):
         assert self.login_page.find(self.login_page.locators.WRONG_LOGIN_NOTIFY)
 
     @pytest.mark.UI
-    @pytest.mark.skip("skip")
     def test_segment_creation(self, login, random_str):
 
         main_page = login
@@ -61,7 +58,7 @@ class TestUI(BaseCase):
 
         assert self.segment_page.find(self.segment_page.locators.NOTHING_NOTIFICATION)
 
-    @pytest.mark.skip("skip")
+    @pytest.mark.UI
     def test_campaign_creation(self, login, path_to_campaign_data_file, random_str):
 
         main_page = login
