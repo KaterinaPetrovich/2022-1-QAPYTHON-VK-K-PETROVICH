@@ -24,9 +24,8 @@ def count_most_common_requests():
     urls = []
     with open("access.log") as file:
         for line in file:
-            urls.append(line.split()[6])
+            urls.append(line.split()[6].split("?")[0])
     cnt = Counter(urls)
-
     return dict(cnt.most_common(10))
 
 
