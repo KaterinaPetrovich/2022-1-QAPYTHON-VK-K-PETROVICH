@@ -7,16 +7,16 @@
  102503 "POST
       6 "PUT
 10 самых частых запросов
- 103932 /administrator/index.php
+ 103939 /administrator/index.php
   26336 /apache-log/access.log
-   6940 /
+   7682 /index.php
+   6981 /
    4980 /templates/_system/css/general.css
    3199 /robots.txt
    2356 http://almhuette-raith.at/administrator/index.php
    2201 /favicon.ico
-   1644 /wp-login.php
+   1757 /wp-login.php
    1563 /administrator/
-   1287 /templates/jp_hotel/css/template.css
 Топ 5 пользователей с ошибкой сервера
     225 189.217.45.73
       4 82.193.127.15

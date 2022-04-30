@@ -2,7 +2,7 @@ echo "Общее количество запросов" >result.txt | wc -l acce
 
 echo "общее количество запросов по типу">>result.txt | cat access.log | awk '{print $6}' | sort | uniq -c >> result.txt
 
-echo "10 самых частых запросов" >>result.txt |cat access.log | awk '{print $7}' | sort | uniq -c| sort -nr| head -n10>> result.txt
+echo "10 самых частых запросов" >>result.txt |cat access.log | awk '{print $7}'|cut -d "?" -f 1 | sort | uniq -c| sort -nr| head -n10>> result.txt
 
 echo "Топ 5 пользователей с ошибкой сервера" >>result.txt |cat access.log | awk '{if ($9 ~ /5../) print $1}' | sort | uniq -c| sort -nr| head -n5>> result.txt
 
