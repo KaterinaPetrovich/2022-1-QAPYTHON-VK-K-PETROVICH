@@ -8,9 +8,10 @@ class TotalRequestsModel(Base):
     __tablename__ = 'total_requests'
 
     def __repr__(self):
-        return f'<total_requests: count={self.count}>'
+        return f'<total_requests: id={self.id}, count={self.count}>'
 
-    count = Column(Integer, nullable=False, primary_key=True)
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    count = Column(Integer, nullable=False)
 
 
 class TypesModel(Base):

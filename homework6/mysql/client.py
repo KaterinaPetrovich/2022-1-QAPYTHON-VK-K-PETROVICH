@@ -6,12 +6,12 @@ from mysql.models import Base
 
 class MysqlClient:
 
-    def __init__(self):
-        self.user = 'root'
-        self.port = 3306
-        self.password = 'pass'
-        self.host = '127.0.0.1'
-        self.db_name = 'TEST_SQL'
+    def __init__(self, user, port, password, host, db_name):
+        self.user = user
+        self.port = port
+        self.password = password
+        self.host = host
+        self.db_name = db_name
 
         self.connection = None
         self.engine = None
@@ -31,6 +31,12 @@ class MysqlClient:
         self.connect(db_created=False)
         self.execute_query(f'DROP database IF EXISTS {self.db_name}')
         self.execute_query(f'CREATE database {self.db_name}')
+
+    def delete_db(self):
+        self.execute_query(f'DROP database IF EXISTS {self.db_name}')
+
+    def create_tables(self):
+        Base.metadata.create_all(self.engine)
 
     def execute_query(self, query, fetch=False):
         res = self.connection.execute(query)
