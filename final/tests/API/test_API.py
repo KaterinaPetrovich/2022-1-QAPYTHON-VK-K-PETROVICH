@@ -33,15 +33,6 @@ class TestApi(ApiBase):
         assert self.mysql.check_by_username(username)
 
     @pytest.mark.API
-    @allure.feature('Тест на добавление пользователя')
-    def test_add_invalid_user(self):
-        user = get_user()
-        *data, username, password, email = user
-        self.api_client.post_add_user(*user, username[:3], password, email)
-        assert not self.mysql.check_by_username(username)
-
-
-    @pytest.mark.API
     @allure.feature('Тест на смену пароля')
     def test_change_password(self, user):
         username = user[3]
