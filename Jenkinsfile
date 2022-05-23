@@ -24,16 +24,6 @@ pipeline {
                         }
             }
         }
-    }
-                stage('Allure reports') { // Allure
-            steps {
-                script {
-                        allure([
-                                reportBuildPolicy: 'ALWAYS',
-                                results: [[path: 'final/allure-results']]
-                        ])
-                }
-            }
-        }
+    }                
  }
 }
