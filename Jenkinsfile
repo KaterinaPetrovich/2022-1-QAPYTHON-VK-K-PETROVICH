@@ -8,7 +8,7 @@ pipeline {
 
                         script {
                             dir('final/') {
-                                bat "docker-compose up --abort-on-container-exit"
+                                bat "docker-compose up "
                             }
 
                 }
