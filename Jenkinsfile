@@ -8,7 +8,7 @@ pipeline {
 
                         script {
                             dir('final/') {
-                                sh "docker-compose up --abort-on-container-exit"
+                                bat "docker-compose up --abort-on-container-exit"
                             }
 
                 }
@@ -20,7 +20,7 @@ pipeline {
 
                     script {
                     dir('final/') {
-                        sh "docker-compose down -v"
+                        bat "docker-compose down -v"
 
 
                         }
