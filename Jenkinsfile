@@ -1,10 +1,12 @@
 pipeline {
+        agent any
+        stages {
 
-        stage("docker compose up") {
+                stage("docker compose up") {
 
-            steps {
+                steps {
 
-                script {
+                        script {
                             dir('final/') {
                                 sh "docker-compose up --abort-on-container-exit"
                             }
@@ -13,11 +15,11 @@ pipeline {
             }
         }
 
-        stage("Closing and deleting infrastructure") {
+        stage("docker compose down") {
             steps {
 
-
-                    dir('TEST_FRAMEWORK/final-project') {
+                    script {
+                    dir('final/') {
                         sh "docker-compose down -v"
 
 
@@ -26,3 +28,4 @@ pipeline {
             }
         }
     }
+ }
