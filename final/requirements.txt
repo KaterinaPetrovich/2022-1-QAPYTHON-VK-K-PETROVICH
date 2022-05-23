@@ -1,0 +1,10 @@
+flask==2.1.2
+pytest==7.1.2
+allure-pytest==2.9.45
+selenium==3.141.0
+webdriver-manager==3.5.4
+pytest-xdist==2.5.0
+requests==2.22.0
+sqlalchemy==1.4.35
+pymysql==1.0.2
+faker==13.11.1

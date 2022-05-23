@@ -1,0 +1,71 @@
+version: '2.1'
+networks:
+  selenoid:
+    external:
+      name: selenoid
+
+
+services:
+  mysql:
+    networks:
+      - selenoid
+    image: "mysql:8.0"
+    container_name: "mysql"
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./config/init.sql:/tmp/mysql-init
+    command: --init-file /tmp/mysql-init
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"-uroot", "-ppass", "ping", "-h", "127.0.0.1" ]
+      timeout: 1s
+      retries: 30
+
+  mock:
+    networks:
+      - selenoid
+    image: "vk_api"
+    container_name: "mock"
+    ports:
+      - '8082:8082'
+
+  selenoid:
+    networks:
+      - selenoid
+    image: 'aerokube/selenoid'
+    container_name: "selenoid"
+    ports:
+      - '4444:4444'
+    volumes:
+    - "./config/selenoid/browsers.json:/tmp/selenoid_config/browsers.json"
+    - //var/run/docker.sock:/var/run/docker.sock
+    command: ["-conf", "/tmp/selenoid_config/browsers.json",  "-container-network", "selenoid", "-timeout", "5m"]
+
+  app:
+    networks:
+      - selenoid
+    image: "myapp"
+    container_name: "app"
+    volumes:
+    - "./config/app_config.txt:/tmp/config"
+    entrypoint: /app/myapp --config=/tmp/config
+    ports:
+      - '8080:8080'
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  tests:
+    networks:
+      - selenoid
+    image: "my_tests"
+    tty: true
+    volumes:
+      - "./:/code"
+      - "./allure_result:/tmp/allure"
+    entrypoint: bash /code/start_tests.sh
+    depends_on:
+      mysql:
+        condition: service_healthy
