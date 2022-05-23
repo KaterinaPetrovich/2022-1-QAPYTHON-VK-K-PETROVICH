@@ -17,16 +17,23 @@ pipeline {
 
         stage("docker compose down") {
             steps {
-
                     script {
-                    dir('final/') {
+                    dir('final/') 
+                            {
                         bat "docker-compose down -v"
-
-
                         }
-
             }
         }
     }
+                stage('Allure reports') { // Allure
+            steps {
+                script {
+                        allure([
+                                reportBuildPolicy: 'ALWAYS',
+                                results: [[path: 'final/allure-results']]
+                        ])
+                }
+            }
+        }
  }
 }
