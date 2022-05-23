@@ -146,7 +146,8 @@ class TestRegistration(BaseCase):
         self.driver.get(self.registration_page.url)
         self.registration_page.register(*data, email[0])
         assert "не короче" in self.registration_page.find(
-            self.registration_page.locators.EMAIL_FIELD).get_attribute('validationMessage') or "lengthen" in self.registration_page.find(
+            self.registration_page.locators.EMAIL_FIELD).get_attribute(
+            'validationMessage') or "lengthen" in self.registration_page.find(
             self.registration_page.locators.EMAIL_FIELD).get_attribute('validationMessage')
         assert not self.mysql.check_by_username(user[3])
 
@@ -164,7 +165,8 @@ class TestRegistration(BaseCase):
         self.registration_page.register(*data, "")
         assert not self.mysql.check_by_username(user[3])
         assert "Заполните" in self.registration_page.find(
-            self.registration_page.locators.EMAIL_FIELD).get_attribute('validationMessage') or "fill" in self.registration_page.find(
+            self.registration_page.locators.EMAIL_FIELD).get_attribute(
+            'validationMessage') or "fill" in self.registration_page.find(
             self.registration_page.locators.EMAIL_FIELD).get_attribute('validationMessage')
 
     @pytest.mark.UI
@@ -179,7 +181,8 @@ class TestRegistration(BaseCase):
         self.driver.get(self.registration_page.url)
         self.registration_page.register(*data, "", email)
         assert "Заполните" in self.registration_page.find(
-            self.registration_page.locators.PASSWORD_FIELD).get_attribute('validationMessage') or "fill" in self.registration_page.find(
+            self.registration_page.locators.PASSWORD_FIELD).get_attribute(
+            'validationMessage') or "fill" in self.registration_page.find(
             self.registration_page.locators.PASSWORD_FIELD).get_attribute('validationMessage')
         assert not self.mysql.check_by_username(user[3])
 
@@ -195,7 +198,7 @@ class TestRegistration(BaseCase):
         self.driver.get(self.registration_page.url)
         self.registration_page.register(*data, short_password, email)
         assert "не короче" in self.registration_page.find(
-            self.registration_page.locators.PASSWORD_FIELD).get_attribute('validationMessage') or\
+            self.registration_page.locators.PASSWORD_FIELD).get_attribute('validationMessage') or \
                "lengthen" in self.registration_page.find(
             self.registration_page.locators.PASSWORD_FIELD).get_attribute('validationMessage')
         assert not self.mysql.check_by_username(user[3])
@@ -273,6 +276,8 @@ class TestRegistration(BaseCase):
         assert not self.mysql.check_by_username(user[3])
 
 
+@allure.epic('UI тесты')
+@allure.feature('Тесты главной страницы')
 class TestMainPage(BaseCase):
 
     @pytest.fixture(scope='function', autouse=True)
@@ -313,9 +318,9 @@ class TestMainPage(BaseCase):
         """
         Проверка видимости vk id на главной странице
         """
-
         vk_id = self.get_vk_id(self.def_user[3])
         assert f'VK ID: {vk_id}' == self.main_page.find(self.main_page.locators.VK_ID_INFO).text
+
 
     @pytest.mark.UI
     def test_home_button(self):
@@ -384,7 +389,7 @@ class TestMainPage(BaseCase):
         assert 'future', 'Internet' in self.driver.title
         assert len(self.driver.window_handles) == 2
 
-    @pytest.mark.skip
+    @pytest.mark.UI
     def test_SMTP_button(self):
         """
         Проверка кнопки SMTP на главной странице

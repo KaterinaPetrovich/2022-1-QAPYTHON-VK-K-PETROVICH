@@ -8,10 +8,10 @@ vk_id_mock = Flask(__name__)
 
 @vk_id_mock.route('/vk_id/<username>', methods=['GET'])
 def get_vk_id(username):
-    #if username in users.keys():
-    return json.dumps({'vk_id': 1}), 200
-    #else:
-        #return json.dumps({}), 404
+    if username in users:
+        return json.dumps({'vk_id': users[username]}), 200
+    else:
+        return json.dumps({'vk_id': 1}), 200
 
 
 @vk_id_mock.route('/status')
