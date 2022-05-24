@@ -27,7 +27,6 @@ class ClientSocket:
         total_data = []
 
         while True:
-            # читаем данные из сокета до тех пор пока они там есть
             data = self.client.recv(1024)
             if data:
                 total_data.append(data.decode())
@@ -40,36 +39,43 @@ class ClientSocket:
     def post_request(self, target_url, params):
         self.connect()
         content_type = 'application/json'
-        request = f'POST {target_url} HTTP/1.1\r\n' \
-                  f'Host:{self.host}\r\n' \
-                  f'Content-Type: {content_type}\r\n' \
-                  f'Content-Length: {len(params)}\r\n' \
-                  f'\r\n' \
-                  f'{params}' \
-                  f'\r\n\r\n'
-
+        request = f"POST {target_url} HTTP/1.1\r\n" \
+                  f"Host:{self.host}\r\n" \
+                  f"Content-Type: {content_type}\r\n" \
+                  f"Content-Length: {len(str(params))}\r\n" \
+                  f"Accept-Encoding: gzip, deflate, br\r\n" \
+                  f"\r\n" \
+                  f"{params}" \
+                  f" \r\n\r\n "
         return self.make_request(request)
 
     def put_request(self, target_url, params):
         self.connect()
         content_type = 'Content-Type: application/json'
-        content_length = f'Content-Length:{str(len(params))}'
-        request = f'PUT {target_url} HTTP/1.1\r\n' \
-                  f'Host: {self.host}\r\n' \
-                  f'{content_type}\r\n' \
-                  f'{content_length}\r\n\r\n' + json.dumps(params)
+        request = f"PUT {target_url} HTTP/1.1\r\n" \
+                  f"Host:{self.host}\r\n" \
+                  f"Content-Type: {content_type}\r\n" \
+                  f"Content-Length: {len(str(params))}\r\n" \
+                  f"Accept-Encoding: gzip, deflate, br\r\n" \
+                  f"\r\n" \
+                  f"{params}" \
+                  f" \r\n\r\n "
 
         return self.make_request(request)
 
     def delete_request(self, target_url, params):
         self.connect()
         content_type = 'Content-Type: application/json'
-        content_length = f'Content-Length:{str(len(params))}'
-        request = f'DELETE {target_url} HTTP/1.1\r\n' \
-                  f'Host: {self.host}\r\n' \
-                  f'{content_type}\r\n' \
-                  f'{content_length}\r\n\r\n' \
-                  + str(params)
+        request = f"DELETE {target_url} HTTP/1.1\r\n" \
+                  f"Host:{self.host}\r\n" \
+                  f"Content-Type: {content_type}\r\n" \
+                  f"Content-Length: {len(str(params))}\r\n" \
+                  f"Accept-Encoding: gzip, deflate, br\r\n" \
+                  f"\r\n" \
+                  f"{params}" \
+                  f" \r\n\r\n "
+
+        return self.make_request(request)
 
     def make_request(self, request):
         self.client.send(request.encode())
